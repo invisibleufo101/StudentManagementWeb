@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.welcome-card {
+	width: 75vw; 
+	height: auto; 
+	background-color: #ced9c7;
+}

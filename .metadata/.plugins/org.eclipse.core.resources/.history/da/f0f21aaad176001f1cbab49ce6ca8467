@@ -1,0 +1,28 @@
+package com.university.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/editStudent.do")
+public class EditStudentServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("EditStudnetServlet called!");
+		
+		String id = request.getParameter("student_id");
+		String name = request.getParameter("student_name");
+		String major = request.getParameter("student_major");
+		String phoneNumber = request.getParameter("student_tel");
+		
+		System.out.println("ID: " + id);
+		System.out.println("Name: " + name);
+		System.out.println("Major: " + major);
+		System.out.println("Tel: " + phoneNumber);
+	
+	}
+}

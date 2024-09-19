@@ -1,0 +1,6 @@
+package com.university.repository;
+
+public interface IGenericRepository<T extends Model>{
+
+	public browse()
+}

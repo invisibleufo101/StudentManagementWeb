@@ -1,0 +1,6 @@
+package com.university.validation;
+
+public class StudentValidator {
+
+	public StudentValidator() {}
+}

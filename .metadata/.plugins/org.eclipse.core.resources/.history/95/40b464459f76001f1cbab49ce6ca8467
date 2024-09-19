@@ -1,0 +1,14 @@
+package com.university.repository;
+
+import java.util.List;
+
+import com.university.model.Model;
+
+public interface IGenericRepository<T extends Model>{
+
+	public List<T> browse();
+	public T read();
+	public void edit(T model);
+	public void add(T model);
+	public void delete(Long id);
+}

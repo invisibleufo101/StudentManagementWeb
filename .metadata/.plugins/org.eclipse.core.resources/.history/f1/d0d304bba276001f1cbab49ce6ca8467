@@ -1,0 +1,65 @@
+package com.university.querybuilder;
+
+import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.university.model.Model;
+
+public class RowMapHandler {
+
+	public RowMapHandler() {}
+	 
+	@SuppressWarnings("unchecked")
+	public static <T extends Model> List<T> mapRows(Class<? extends Model> modelClass, ResultSet rs) throws SQLException {
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+		List<T> modelObjects = new ArrayList<>();
+		
+		while(rs.next()) {
+			// Create an instance of modelClass (upcasted to its parent)
+			T modelObject = null;
+			try {
+				modelObject = (T) modelClass.getDeclaredConstructor().newInstance();
+				for (int idx=1; idx<=columnCount; idx++) {
+					String columnName = metaData.getColumnName(idx).toLowerCase();  
+					Object columnValue = rs.getObject(idx);
+					
+					System.out.println(columnName);
+					
+					modelObject.setField(columnName, columnValue);
+				}
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | 
+					InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			} 
+			modelObjects.add(modelObject);
+		}
+		return modelObjects;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Model> T mapRow(Class<? extends Model> modelClass, ResultSet rs) throws SQLException {
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+		T modelObject = null;
+		if (rs.next()) {				
+			try {
+				modelObject = (T) modelClass.getDeclaredConstructor().newInstance();
+				for (int idx=1; idx<=columnCount; idx++) {
+					String columnName = metaData.getColumnName(idx).toLowerCase();
+					Object columnValue = rs.getObject(idx);
+					modelObject.setField(columnName, columnValue);
+				}
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+		return modelObject;
+	}
+}
+

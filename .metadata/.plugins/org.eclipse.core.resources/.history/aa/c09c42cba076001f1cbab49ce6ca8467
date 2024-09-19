@@ -1,0 +1,16 @@
+package com.university.service;
+
+import java.util.List;
+
+import com.university.model.impl.Student;
+import com.university.querybuilder.QueryBuilder;
+
+public class StudentService {
+
+	public StudentService() {}
+	
+	public List<Student> getAllStudents() {
+		List<Student> students = new QueryBuilder(Student.class).select("*").getAll();
+		return students;
+	}
+}

@@ -1,0 +1,18 @@
+package com.university.validation;
+
+import java.util.Map;
+
+import com.university.model.impl.Student;
+
+public class StudentValidator {
+
+	public StudentValidator() {}
+	
+	public boolean validate(Map<String, String> requestParams) {
+		
+		Student student = new Student();
+		
+		
+		return true;
+	}
+}

@@ -1,0 +1,11 @@
+package com.university.validation;
+
+public class UpdateValidator {
+	
+	public UpdateValidator() {}
+	
+	public boolean validate(Map<String, Object> updateParams) {
+		getStudentPhoneNumbers(updateParams);
+		
+	}
+}

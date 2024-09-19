@@ -1,0 +1,6 @@
+package com.university.service;
+
+public class StudentService {
+
+	public StudentService() {		}
+}

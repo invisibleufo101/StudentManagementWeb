@@ -1,0 +1,13 @@
+package com.university.util;
+
+import java.sql.Connection;
+
+public class TestClass {
+
+	public static void main(String[] args) {
+		Connection conn = JDBCUtil.getConnection();
+		if (conn != null) {
+			System.out.println("Success!");
+		}
+	}
+}

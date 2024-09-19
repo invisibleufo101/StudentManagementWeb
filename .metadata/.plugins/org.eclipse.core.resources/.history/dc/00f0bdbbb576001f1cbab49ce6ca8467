@@ -1,0 +1,10 @@
+package com.university.validation;
+
+public class StudentValidator {
+
+	public StudentValidator() {}
+	
+	public boolean validate(Map<String, String>) {
+		
+	}
+}

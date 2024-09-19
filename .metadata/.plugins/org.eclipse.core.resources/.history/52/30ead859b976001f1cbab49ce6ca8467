@@ -1,0 +1,61 @@
+package com.university.validation;
+
+import java.util.List;
+import java.util.Map;
+
+import com.university.model.impl.Student;
+import com.university.querybuilder.QueryBuilder;
+
+public class StudentValidator {
+
+	private List<Student> records;
+	
+	public StudentValidator() {}
+	
+//	Field : studentId
+//	Value : 2017199083
+//	
+//	Field : name
+//	Value : 하승우
+//
+//	Field : major
+//	Value : 나노과학공학과
+//	
+//	Field : phoneNumber
+//	Value : 010-8255-3057
+
+	
+	public void validate(Map<String, String> requestParams) {
+		
+		int idx = 0;
+		String[] columns = new String[requestParams.size()];		
+		
+		for (String field : requestParams.keySet()) {
+			columns[idx++] = field;
+		}
+		
+		records = new QueryBuilder(Student.class).select(columns).getAll();
+		
+//		return true;
+	}
+	
+	private boolean validateStudentId() {
+		
+		return true;
+	}
+	
+	private boolean validateName() {
+		
+		return true;
+	}
+	
+	private boolean validateMajor() {
+		
+		return true;
+	}
+	
+	private boolean validatePhoneNumber() {
+		
+		return true;
+	}
+}

@@ -1,0 +1,42 @@
+package com.university.service;
+
+import java.util.List;
+
+import com.university.model.impl.Student;
+import com.university.querybuilder.QueryBuilder;
+
+public class StudentService {
+
+	private QueryBuilder queryBuilder = new QueryBuilder(Student.class);
+	
+	public StudentService() {}
+	
+	public List<Student> getAllStudents() {
+		List<Student> students = queryBuilder.select("*").getAll();
+		return students;
+	}
+	
+	public Student getStudent(String studentId) {
+		Student student = queryBuilder.select("*").get();
+		return student;
+	}
+	
+	public void createStudent(Student student) {
+		String studentId = (String) student.getField("studentId");
+		String name = (String) student.getField("name");
+		String major = (String) student.getField("major");
+		String phoneNumber = (String) student.getField("phoneNumber");
+		
+		queryBuilder.insert("student_id", "name", "major", "phone_number").values(studentId, name, major, phoneNumber).execute();
+	}
+	
+	public void updateStudent(Student student) {
+		String major = (String) student.getField("major");
+		String phoneNumber = (String) student.getField("phoneNumber");
+		
+	}
+	
+	public void deleteStudent() {
+		
+	}
+}

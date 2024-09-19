@@ -1,0 +1,5 @@
+package com.university.querybuilder;
+
+public class TypeCastHandler {
+
+}

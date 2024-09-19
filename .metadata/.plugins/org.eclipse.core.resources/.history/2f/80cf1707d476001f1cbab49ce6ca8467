@@ -1,0 +1,33 @@
+package com.university.validation;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.university.model.impl.Student;
+import com.university.querybuilder.QueryBuilder;
+
+public class UpdateValidator {
+	
+	private List<Student> records;
+	private Map<String, String> errorBag = new LinkedHashMap<>();
+	
+	public UpdateValidator() {}
+	
+	public boolean validate(Map<String, Object> updateParams) {
+		getStudentPhoneNumbers(updateParams);
+		
+		String updatedMajor = (String) updateParams.get("major");
+		String phoneNumber = (String) updateParams.get("phoneNumber");
+		
+	}
+	
+	private void getStudentPhoneNumbers(Map<String, String> params){
+		this.records = new QueryBuilder(Student.class).select("phoneNumber").getAll();
+	}
+	
+	public Map<String, String> getErrorBag(){
+		return errorBag;
+	}
+}

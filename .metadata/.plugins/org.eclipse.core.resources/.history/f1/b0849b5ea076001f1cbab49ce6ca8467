@@ -1,0 +1,10 @@
+package com.university.service;
+
+public class StudentService {
+
+	public StudentService() {}
+	
+	public List<Student> getAllStudents() {
+		
+	}
+}

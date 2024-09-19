@@ -1,0 +1,74 @@
+package com.university.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class JDBCUtil {
+	
+	public static Connection getConnection() {
+		Connection conn = null;
+		
+		try {	
+			DriverManager.registerDriver(new org.h2.Driver());
+			
+			String jdbcUrl = "jdbc:h2:tcp://localhost/~/HSW_Web;CASE_INSENSITIVE_IDENTIFIERS=TRUE";
+			String userName = "sa";
+			String password = "1234";
+			conn = DriverManager.getConnection(jdbcUrl, userName, password);			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return conn;
+	}
+	
+public static void close(PreparedStatement pstmt, Connection conn) {
+		
+		try {
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void close(ResultSet rs, PreparedStatement stmt, Connection conn) {
+		
+		// JDBC 5단계 : 연결 해제
+		
+		try {
+			if (rs != null) {				
+				rs.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}
