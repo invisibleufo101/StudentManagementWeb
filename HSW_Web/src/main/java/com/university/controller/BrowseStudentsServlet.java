@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.university.model.impl.Student;
 import com.university.service.StudentService;
@@ -19,15 +20,18 @@ public class BrowseStudentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		showContent(response);
+		showContent(request, response);
 	}
 	
-	private List<Student> getStudents(){
-		StudentService studentService = new StudentService();
-		return studentService.getAllStudents();
-	}
-	
-	private void showContent(HttpServletResponse response) throws IOException {
+	private void showContent(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String searchId = request.getParameter("search_student_id");
+		if (searchId == null) {
+			searchId = "";
+		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("searchId", searchId);
+		
 		PrintWriter out = response.getWriter();
 		 
 		// Head
@@ -58,8 +62,8 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("<hr/>");
 		out.println("<ul class='nav nav-pills flex-column mb-auto'>");
 		
+		// 홈
 		out.println("<!-- Menu Home -->");
-		
 		out.println("<li class='nav-item'>");
 		out.println("<a href='/' class='nav-link text-white'>");
 		out.println("<div class='d-flex align-items-center'>");						
@@ -71,6 +75,7 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("</a>");
 		out.println("</li>");
 		
+		// 학생 조회 및 검색
 		out.println("<!-- List and Search Students -->");
 		out.println("<li>");
 		out.println("<a href='#' class='nav-link active'>");
@@ -83,6 +88,7 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("</a>");
 		out.println("</li>");
 		
+		// 학생 등록
 		out.println("<!-- Register Student -->");
 		out.println("<li>");
 		out.println("<a href='/register_student.html' class='nav-link text-white'>");
@@ -99,21 +105,24 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("</nav>");
 		out.println("<!-- End of Navbar -->");
 		
-		// Student List Section
+		// 학생 명단				
 		out.println("<section class='d-flex justify-content-center align-items-center' style='width: 75vw; background-color: #ced9c7;'>");
 		out.println("<!-- Start of Student List -->");
-		out.println("<div class='container mx-auto p-5 bg-white overflow-y-auto' style='max-height: 80vh;'>");
+		out.println("<div class='container mx-auto p-5 bg-white' style='max-height: 80vh; overflow-y: auto; overflow-x: hidden;'>");  
 		out.println("<div class='table-responsive'>");
 		out.println("<h2 class='text-center text-decoration-underline mb-3'>학생 명단</h2>");
-		out.println("<form action='' method='' class='row g-3 justify-content-end'>");
+		
+		// 검색
+		out.println("<form action='/browseStudents.do' method='POST'>");
+		out.println("<div class='row g-3 justify-content-end'>");
 		out.println("<div class='col-auto'>");
-		out.println("<input type='text' class='form-control' id='search_id' placeholder='학번으로 검색'>");
+		out.println("<input type='search' class='form-control' id='search_student_id' name='search_student_id' placeholder='학번으로 검색' value='" + session.getAttribute("searchId") + "'>");			
 		out.println("</div>");
 		out.println("<div class='col-auto'>");
 		out.println("<button type='submit' class='btn btn-primary mb-3'>검색</button>");
 		out.println("</div>");
-		out.println("</form>");
-		out.println("<table class='table table-hover text-center overflow-x-hidden'>");
+		out.println("</div>");
+		out.println("<table class='table table-hover text-center w-100 overflow-x-hidden' style='table-layout: fixed;'> ");
 		out.println("<thead class='table-dark sticky-top'>");
 		out.println("<tr>");
 		out.println("<th scope='col'>학번</th>");
@@ -127,7 +136,10 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("<tbody>");
 		
 		// Rows of Student record from the Database
-		List<Student> students = getStudents();
+		StudentService studentService = new StudentService();
+		String keyword = (String) session.getAttribute("searchId");
+		
+		List<Student> students = studentService.getAllStudents(keyword);;
 		for (Student student : students) {
 			out.println("<tr>");
 			out.println("<td>" + student.getField("studentId") + "</td>");
@@ -156,6 +168,7 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("</div>");
 		out.println("</div>");
 		out.println("<!-- End of Student List -->");
+		out.println("</form>");
 		out.println("</section>");
 		out.println("</main>");
 		out.println("</body>");

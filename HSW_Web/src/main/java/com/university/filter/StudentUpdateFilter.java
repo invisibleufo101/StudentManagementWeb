@@ -41,6 +41,8 @@ public class StudentUpdateFilter extends HttpFilter implements Filter {
 		if (!updateValidator.validate(updateParams)) {
 			Map<String, String> errors = updateValidator.getErrorBag();
 			showError(response, errors);
+			updateValidator.clearErrorbag();
+			
 			return;
 		}
 		chain.doFilter(request, response);

@@ -11,13 +11,13 @@ public class StudentService {
 	
 	public StudentService() {}
 	
-	public List<Student> getAllStudents() {
-		List<Student> students = queryBuilder.select("*").getAll();
+	public List<Student> getAllStudents(String searchStudentId) {
+		List<Student> students = queryBuilder.select("*").whereLike("studentId", searchStudentId + "%").getAll();
 		return students;
 	}
 	
 	public Student getStudent(Long id) {
-		Student student = queryBuilder.select("*").get();
+		Student student = queryBuilder.select("*").where("id", id).get();
 		return student;
 	}
 	
@@ -40,5 +40,9 @@ public class StudentService {
 	
 	public void deleteStudent(Long id) {
 		queryBuilder.delete().where("id", id).execute();
+	}
+	
+	public void searchStudents(String searchId) {
+		
 	}
 }

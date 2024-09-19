@@ -79,6 +79,10 @@ public class UpdateValidator {
 	}
 	
 	public Map<String, String> getErrorBag(){
-		return errorBag;
+		return this.errorBag;
+	}
+	
+	public void clearErrorbag() {
+		this.errorBag.clear();
 	}
 }

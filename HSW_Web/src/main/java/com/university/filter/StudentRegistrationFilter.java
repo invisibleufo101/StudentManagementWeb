@@ -37,16 +37,18 @@ public class StudentRegistrationFilter extends HttpFilter implements Filter {
 		String major = request.getParameter("student_major");
 		String phoneNumber = request.getParameter("student_tel");
 		
-		registrationParams.put("major", major);
-		registrationParams.put("phoneNumber", phoneNumber);
 		registrationParams.put("studentId", studentId);
 		registrationParams.put("name", name);
+		registrationParams.put("major", major);
+		registrationParams.put("phoneNumber", phoneNumber);
 		
-		RegistrationValidator validator = new RegistrationValidator();
+		RegistrationValidator registrationValidator = new RegistrationValidator();
 		try {
-			if (!validator.validate(registrationParams)) {
-				Map<String, String> errors = validator.getErrorBag();
+			if (!registrationValidator.validate(registrationParams)) {
+				Map<String, String> errors = registrationValidator.getErrorBag();
 				showError(response, errors);
+				registrationValidator.clearErrorbag();
+				
 				return;
 			}
 		} catch (NoSuchFieldException | IOException e) {

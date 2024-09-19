@@ -212,6 +212,9 @@ public class QueryBuilder {
 		List<T> results = (List<T>) this.queryExecutor.fetchResults(queryString, resultParameters, this.modelClass);
 
 		clearQuery();
+		
+		System.out.println(this.query.toString());
+		
 		return results;
 	}
 
