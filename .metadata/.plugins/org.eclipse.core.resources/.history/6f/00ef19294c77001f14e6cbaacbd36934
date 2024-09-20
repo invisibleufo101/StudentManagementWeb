@@ -1,0 +1,43 @@
+package com.university.model;
+
+public abstract class Model {
+	
+	protected String table;
+	protected FieldHandler fieldHandler;
+	
+	// Case #1) The concrete class hasn't delcared its table name via constructor(super)
+	public Model() {
+		String lowerCaseClassName = this.getClass().getSimpleName();
+		this.table = lowerCaseClassName.concat("s");
+		this.fieldHandler = new FieldHandler(this);
+	}
+	
+	// Case #2) Concrete class declared table name via constructor(super)
+	public Model(String table) {
+		this.table = table;
+		this.fieldHandler = new FieldHandler(this);
+	}
+	
+	public void setField(String column, Object value) {
+		this.fieldHandler.setField(column, value);
+	}
+	
+	/**
+	 * 모델 객체에 선언된 필드 이름에 해당하는 필드 값을 반환합니다.
+	 *
+	 * @param column 컬럼 이름
+	 * @return 필드 값
+	 */
+	public Object getField(String column) {
+		return this.fieldHandler.getField(column);
+	}
+	
+	/**
+	 * 모델 객체의 테이블 이름을 반환합니다.
+	 *
+	 * @return 테이블 이름
+	 */
+	public String getTable() {
+		return table;
+	}
+}

@@ -10,6 +10,9 @@ public class Student extends Model {
 	private String major;
 	private String phoneNumber;
 	
+	/**
+	 * 생성자를 통해 해당 객체가 어느 데이터베이스 테이블을 쓰고 있는지 명시해 줍니다.
+	 */
 	public Student() {
 		super("student");
 	}

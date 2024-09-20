@@ -15,13 +15,19 @@ public class EditStudentServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 학생의 정보를 수정하려고 하는 사용자의 요청을 처리합니다.
+	 * 해당 프로젝트에서 모든 예외처리는 Filter와 Validation 객체들이 담당합니다.
+	 * 그러므로 이 메소드에서는 바로 사용자가 제공한 정보를 처리해도 문제가 없습니다.
+	 * 
+	 * StudentService 객체를 생성해서 학생 정보를 수정합니다.
+	 * 
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("EditStudnetServlet called!");
-		
 		String stringId = request.getParameter("id");
 		Long id = Long.parseLong(stringId);
-		String major = request.getParameter("student_major");
-		String phoneNumber = request.getParameter("student_tel");
+		String major = request.getParameter("student_major").trim();
+		String phoneNumber = request.getParameter("student_tel").trim();
 		
 		Student updateStudent = new Student();
 		updateStudent.setField("id", id);
@@ -32,6 +38,5 @@ public class EditStudentServlet extends HttpServlet {
 		studentService.updateStudent(updateStudent);
 		
 		response.sendRedirect("/browseStudents.do");
-
 	}
 }

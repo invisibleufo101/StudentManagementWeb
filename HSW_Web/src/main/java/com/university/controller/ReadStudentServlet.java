@@ -19,12 +19,27 @@ public class ReadStudentServlet extends HttpServlet {
 	private String stringId;
 	
 
+	/**
+	 * 사용자의 요청에서 학생 ID를 추출하고
+	 * 해당 id를 사용하여 학생 정보를 조회합니다.
+	 * 
+	 * @param request  HttpServletRequest 객체
+	 * @param response HttpServletResponse 객체
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String stringId = request.getParameter("id");
 		this.stringId = stringId;
 		showContent(response);
 	}
 	
+	/**
+	 * 사용자를 위해 데이터베이스에 저장된 각 학생들의 정보를 보거나 수정할 수 있는 뷰를 만듭니다
+	 * 
+	 * @param response HttpServletResponse 객체
+	 * @throws IOException
+	 */
 	private void showContent(HttpServletResponse response) throws IOException {
 		Student student = getStudentInfo(stringId);
 		PrintWriter out = response.getWriter();
@@ -164,6 +179,13 @@ public class ReadStudentServlet extends HttpServlet {
 		out.close();
 	}
 	
+	/**
+	 * 각 학생의 정보를 가져오기 위해 StudentService 객체를 생성합니다.
+	 * id 기본키 값으로 검색합니다.
+	 * 
+	 * @param stringId 사용자 요청에서 추출한 문자열 버젼의 기본키 값.
+	 * @return		   해당 기본키 값을 가지고 있는 학생 정보
+	 */
 	private Student getStudentInfo(String stringId) {
 		Long id = Long.parseLong(stringId);
 		StudentService studentService = new StudentService();

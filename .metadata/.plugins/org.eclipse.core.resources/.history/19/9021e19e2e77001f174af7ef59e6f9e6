@@ -1,0 +1,17 @@
+package com.university.test;
+
+public class TestClass {
+
+	public static void main(String[] args) {
+		String majorPattern = "^[가-힣]+학과$";
+		
+		String temp = "1234";
+		if (temp.matches(temp)) {
+			System.out.println("TRUE");
+		} else {
+			System.out.println("FALSE");
+		}
+
+	}
+
+}

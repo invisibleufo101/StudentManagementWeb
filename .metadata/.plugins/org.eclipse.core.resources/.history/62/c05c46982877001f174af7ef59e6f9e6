@@ -1,0 +1,83 @@
+package com.university.controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.university.model.impl.Student;
+import com.university.querybuilder.QueryBuilder;
+import com.university.service.StudentService;
+
+@WebServlet("/addStudent.do")
+public class AddStudentServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		String studentId = request.getParameter("add_student_id");
+		String name = request.getParameter("add_student_name");
+		String major = request.getParameter("add_student_major");
+		String phoneNumber = request.getParameter("add_student_tel");
+		
+		
+		System.out.println("Add Student Servlet:  ");
+		System.out.println("Studnet ID: " + studentId);
+		System.out.println("Name: " + name);
+		System.out.println("Major: " + major);
+		System.out.println("Phone: " + phoneNumber);
+		
+		
+		
+		Map<String, String> registrationParams = new LinkedHashMap<>();
+		
+	
+		// Debug
+//		System.out.println("Register Filter!");
+//		System.out.println("ID: " + studentId);
+//		System.out.println("Name: " + name);
+//		System.out.println("Major: " + major);
+//		System.out.println("Phone: " + phoneNumber);
+		
+		registrationParams.put("studentId", studentId);
+		registrationParams.put("name", name);
+		registrationParams.put("major", major);
+		registrationParams.put("phoneNumber", phoneNumber);
+		
+		RegistrationValidator registrationValidator = new RegistrationValidator();
+		try {
+			if (!registrationValidator.validate(registrationParams)) {
+				Map<String, String> errors = registrationValidator.getErrorBag();
+				showError(response, errors);
+				return;
+			}
+		} catch (NoSuchFieldException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		chain.doFilter(request, response);
+		
+		
+		QueryBuilder qBuilder = new QueryBuilder(Student.class);
+		qBuilder.insert("studentId", "name", "major", "phoneNumber").values(studentId, name, major, phoneNumber).execute();
+				
+//		Student newStudent = new Student();
+//		newStudent.getField(studentId);
+//		newStudent.getField(name);
+//		newStudent.getField(major);
+//		newStudent.getField(phoneNumber);
+//		
+//		StudentService studentService = new StudentService();
+//		studentService.createStudent(newStudent);
+		
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("/browseStudents.do");
+//		dispatcher.forward(request, response);
+		
+		response.sendRedirect("/browseStudents.do");
+	}
+}

@@ -1,0 +1,13 @@
+package com.university.test;
+
+public class TestClass {
+
+	public static void main(String[] args) {
+		String majorPattern = "^[가-힣]+학과$";
+		
+		String temp = "간호학과";
+		
+
+	}
+
+}

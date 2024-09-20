@@ -19,10 +19,21 @@ public class BrowseStudentsServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 사용자가 학 조회 및 검색 탭을 눌렀을 때 호출 되는 메소드입니다.
+	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		showContent(request, response);
 	}
 	
+	/**
+	 * 사용자를 위해 데이터베이스에 저장된 모든 학생들의 정보를 볼 수 있는 페이지를 생성합니다.
+	 * 테이블 위에 있는 검색 기능으로 특정한 조건에 맞는 학생들을 골라 볼 수 있습니다.
+	 * 
+	 * @param request  사용자 요청
+	 * @param response 요청에 해당하는 학생 명단 페이
+	 * @throws IOException
+	 */
 	private void showContent(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String searchId = request.getParameter("search_student_id");
 		if (searchId == null) {

@@ -1,0 +1,76 @@
+package com.university.model;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.university.querybuilder.TypeCastHandler;
+
+public class FieldHandler {
+	
+	private Object model;
+	private Map<String, Field> fieldMap;
+	
+	public FieldHandler(Object model) {
+		this.model = model;
+		this.fieldMap = getFieldMap(model);
+	}
+	
+	public void setField(String column, Object value) {
+		try {
+			
+			String newColumn = convertToLowerCase(column);
+			
+			System.out.println("SetField. Valid column:" + column);
+			
+			Field field = fieldMap.get(newColumn);
+			if (field == null) {
+				throw new NoSuchFieldException("Field name: " + column + " is not a valid field!");
+			}
+			
+			field.setAccessible(true);
+			Object castedValue = TypeCastHandler.convertToFieldType(field, value);
+			field.set(model, castedValue);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Object getField(String column) {
+        try {
+        	
+        	String newColumn = convertToLowerCase(column);
+        	
+        	System.out.println("GetField. Valid column:" + column);
+        	
+            Field field = fieldMap.get(newColumn);
+            if (field == null) {
+                throw new NoSuchFieldException("Column: " + column + " is not a valid field!");
+            }
+            field.setAccessible(true);
+            return field.get(model);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	// Map the declared fields of inherited classes
+	// Key => Column Name (lowercase)
+	// Value => Field object
+	private Map<String, Field> getFieldMap(Object model){
+		Map<String, Field> fieldMap = new HashMap<>();
+		Field[] fields = model.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			field.setAccessible(true);
+			fieldMap.put(field.getName().toLowerCase(), field);
+		}
+		return fieldMap;
+	}
+	
+	private String convertToLowerCase(String columnName) {
+		String lowerCaseColumn = columnName.toLowerCase().replace("_", "");
+		return lowerCaseColumn;
+	}
+}
+

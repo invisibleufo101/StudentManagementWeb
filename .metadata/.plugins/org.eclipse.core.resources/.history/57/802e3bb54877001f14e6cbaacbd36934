@@ -1,0 +1,153 @@
+package com.university.filter;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.university.validator.RegistrationValidator;
+
+// /editStudent.do
+@WebFilter(urlPatterns = "/addStudent.do")
+public class StudentRegistrationFilter extends HttpFilter implements Filter {
+       
+    private static final long serialVersionUID = 1L;
+
+	public StudentRegistrationFilter() {}
+
+	/**
+	 * 사용자가 학생 정보 수정을 했을 때 요청을 가로채고 해당 정보들을 UpdateValidator 객체에 보내서 예외 처리를 합니다.
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		request.setCharacterEncoding("UTF-8");
+		
+		Map<String, String> registrationParams = new LinkedHashMap<>();
+		
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response; 
+		
+		String studentId = request.getParameter("student_id");
+		String name = request.getParameter("student_name");
+		String major = request.getParameter("student_major");
+		String phoneNumber = request.getParameter("student_tel");
+		
+		registrationParams.put("studentId", studentId);
+		registrationParams.put("name", name);
+		registrationParams.put("major", major);
+		registrationParams.put("phoneNumber", phoneNumber);
+		
+		RegistrationValidator registrationValidator = new RegistrationValidator();
+		try {
+			if (!registrationValidator.validate(registrationParams)) {
+				Map<String, String> errors = registrationValidator.getErrorBag();
+				showError(httpResponse, errors);
+//				registrationValidator.clearErrorbag();
+				return;
+			}
+		} catch (NoSuchFieldException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		chain.doFilter(request, response);
+	}
+	
+	// Show Errors via Javascript alert()
+	private void showError(ServletResponse response, Map<String, String> errors) throws IOException {
+		response.setContentType("text/html; charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    
+		PrintWriter out = response.getWriter();
+	    
+	    out.println("<!DOCTYPE html>");
+	    out.println("<html>");
+	    out.println("<head>");
+	    out.println("<meta charset='UTF-8'>");
+	    out.println("<meta name='viewport' content='width=device-width, initial-scale=1'>");
+	    out.println("<link rel='stylesheet' href='css/bootstrap.min.css' />");
+	    out.println("<link rel='stylesheet' href='css/style.css'/>");
+	    out.println("<script defer src='js/bootstrap.bundle.min.js'></script>");
+	    out.println("<link rel='icon' href='images/portal_icon.svg'/>");
+	    out.println("<title>학생 관리 포털</title>");
+	    out.println("</head>");
+	    out.println("<body>");
+	    out.println("<main class='d-flex flex-nowrap vh-100'>");
+	    out.println("<!-- Start of Navbar -->");
+	    out.println("<nav class='d-flex flex-lg-column flex-md-column flex-row flex-shrink-0 p-3 text-bg-dark' style='width: 25vw;'>");
+	    out.println("<a href='/' class='d-flex justify-content-around align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none'>");
+	    out.println("<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' fill='currentColor' class='bi bi-mortarboard' viewBox='0 0 16 16'>");
+	    out.println("<path d='M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z'/>");
+	    out.println("<path d='M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z'/>");
+	    out.println("</svg>");
+	    out.println("<span class='ms-3' style='font-size: 1.5rem;'>학생 관리 포털</span>");
+	    out.println("</a>");
+	    out.println("<hr/>");
+	    out.println("<ul class='nav nav-pills flex-column mb-auto'>");
+	    out.println("	<!-- Menu Home -->");
+	    out.println("<li class='nav-item'>");
+	    out.println("<a href='/' class='nav-link text-white'>");
+	    out.println("<div class='d-flex align-items-center'>");						
+	    out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>");
+	    out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25' />");
+	    out.println("</svg>");
+	    out.println("<p class='m-0'>메뉴 홈</p>");
+	    out.println("</div>");
+	    out.println("</a>");
+	    out.println("</li>");
+	    out.println("<!-- List and Search Students -->");
+	    out.println("<li>");
+	    out.println("<a href='/browseStudents.do' class='nav-link text-white'>");
+	    out.println("<div class='d-flex align-items-center'>");
+	    out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>");
+	    out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z' />");
+	    out.println("</svg>");
+	    out.println("<p class='m-0'>학생 조회 및 검색</p>");
+	    out.println("</div>");
+	    out.println("</a>");
+	    out.println("</li>");
+	    out.println("<!-- Register Student -->");
+	    out.println("<li>");
+	    out.println("<a href='/register_student.html' class='nav-link text-white'>");
+	    out.println("<div class='d-flex align-items-center'>");
+	    out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>");
+	    out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10' />");
+	    out.println("</svg>");
+	    out.println("<p class='m-0'>학생 등록</p>");
+	    out.println("</div>");
+	    out.println("</a>");
+	    out.println("</li>");
+	    out.println("</ul>");
+	    out.println("<hr/>");
+	    out.println("</nav>");
+	    out.println("<!-- End of Navbar -->");
+	    out.println("<section class='d-flex justify-content-center align-items-center' style='width: 75vw; height: auto; background-color: #ced9c7;'>");
+	    out.println("<!-- Start of Error Messages -->");
+	    out.println("<div class='d-flex flex-column justify-content-center align-items-center h-50 w-50 bg-white rounded-3 p-5'>");
+	    out.println("<h3 class='text-danger'>에러 메세지</h3>");
+	    out.println("<p class='text-primary-emphasis'>학생을 등록하는 도중 에러가 발생했습니다.</p>");
+	    out.println("<div class='py-3 d-flex flex-column align-items-evenly justify-content-start'>");
+	    for (Map.Entry<String, String> entry : errors.entrySet()) {
+	        out.println("<h2 class='fs-2'>" + entry.getValue() + "</h2>");
+	    }
+	    out.println("</div>");
+	    out.println("<a class='text-info fs-3' href='/register_student.html'>다시 돌아가기</a>");
+	    out.println("</div>");
+	    out.println("</section>");
+	    out.println("</main>");
+	    out.println("</body>");
+	    out.println("</html>");
+	    
+		out.close();
+	}
+}

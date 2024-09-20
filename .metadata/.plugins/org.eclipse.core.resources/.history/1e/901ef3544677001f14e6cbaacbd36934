@@ -1,0 +1,120 @@
+package com.university.querybuilder;
+
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.university.model.Model;
+import com.university.util.JDBCUtil;
+
+public class QueryExecutor {
+	
+	/**
+	 * QueryBuilder 객체 대신 SQL문을 실행하는 객체입니다.
+	 * 각 객체마다 단일 책임성 규칙을 적용해보고 싶어서 만든 객체입니다.
+	 */
+	public QueryExecutor() {}
+	
+	/**
+	 * SELECT문의 모든 결과 값들을 반환합니다.
+	 * 
+	 * @param <T>		  모델 클래스의 자식 객
+	 * @param query		  SQL작업을 위해 필요한 Query String
+	 * @param parameters  QueryBuilder 객체에서 저장한 인자 값들  
+	 * @param modelClass  데이터베이스 쿼리에서 각 행의 데이터를 담을 클래스 객체
+	 * @return 			  모델 자식 객체들에 담은 결과 값들
+	 */
+	<T extends Model> List<T> fetchResults(String query, List<Object> parameters, Class<? extends Model> modelClass){
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<T> modelObjects = new ArrayList<>();
+        
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(query);
+            setParameters(pstmt, parameters);
+            rs = pstmt.executeQuery();
+            modelObjects = RowMapHandler.mapRows(modelClass, rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(rs, pstmt, conn);
+        }
+
+        return modelObjects;
+	}
+	
+	<T extends Model> T fetchResult(String query, List<Object> parameters, Class<? extends Model> modelClass) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		T modelObject = null;
+		
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(query);
+			setParameters(pstmt, parameters);
+			rs = pstmt.executeQuery();
+			modelObject = RowMapHandler.mapRow(modelClass, rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(rs, pstmt, conn);
+		}
+		
+		return modelObject;
+	}
+	
+	void execute(String query, List<Object> parameters, Class<? extends Model> modelClass) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(query);
+			setParameters(pstmt, parameters);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(pstmt, conn);
+		}
+	}
+	
+	private void setParameters(PreparedStatement pstmt, List<Object> parameters) throws SQLException {
+		for (int idx=1; idx<=parameters.size(); idx++) {
+			Object parameter = parameters.get(idx-1); //  subtract 1 from idx to avoid ArrayOutOfBounds
+			
+			if (parameter instanceof String) {
+				pstmt.setString(idx, (String) parameter);
+			} else if (parameter instanceof Date) { // (!) this is java.sql.Date
+				pstmt.setDate(idx, (Date) parameter);
+			} else if (parameter instanceof Boolean) {
+				pstmt.setBoolean(idx, (Boolean) parameter);
+			} else if (parameter instanceof Byte) {
+				pstmt.setByte(idx, (Byte) parameter);
+			} else if (parameter instanceof Short) {
+				pstmt.setShort(idx, (Short) parameter);
+			} else if (parameter instanceof Double) {
+				pstmt.setDouble(idx, (Double) parameter);
+			} else if (parameter instanceof Float) {
+				pstmt.setFloat(idx, (Float) parameter);
+			} else if (parameter instanceof Long) {
+				pstmt.setLong(idx, (Long) parameter);
+			} else if (parameter instanceof Integer) {
+				pstmt.setInt(idx, (Integer) parameter);
+			} else if (parameter instanceof Array) {
+				pstmt.setArray(idx, (Array) parameter);
+			} else {
+				throw new SQLException();
+			}
+		}
+	}
+}
+
