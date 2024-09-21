@@ -94,7 +94,6 @@ public class UpdateValidator {
 				break;
 			}
 		}
-		
 		return errorBag.isEmpty();
 	}
 	
