@@ -20,7 +20,7 @@ public class RegistrationValidator {
 	 * Student 객체의 각 필드 값에 따라 해당하는 메소드로 올바른 값의 유무를 결정합니다.
 	 * 
 	 * 예외를 발생시틸 때마다 errorBag 맵이 예외를 담으며 이 메소드의 실행이 끝났을 때
-	 * errorBag의 크기를 반환합니다.
+	 * errorBag의 크기를 반환합니.
 	 * 
 	 * @param requestParams register_student.html 파일에서 받은 인자 값들
 	 * @return 				해당 정보가 올바르게 입력되었는지 나타내는 boolean 변수
@@ -35,7 +35,6 @@ public class RegistrationValidator {
 			String field = entry.getKey();
 			String value = entry.getValue();
 			
-			// 학생 등록 폼 필드에 예외가 발생하면 조기 반환을 하는 것이 아닌 boolean 변수에 값을 저
 			switch(field) {
 				case "studentId":
 					if (!validateStudentId(value)) {
@@ -56,17 +55,15 @@ public class RegistrationValidator {
 					break;
 				
 				case "phoneNumber":
-					if (!validatePhoneNumber(value)) {
-						isValidReigstration = false;
-					}
+					if (!validatePhoneNumber(value)) return false;
 					break;
 				
 				default:
-					throw new NoSuchFieldException("Field (" + field + ") has not been found in RegistrationValidator!");
+					throw new NoSuchFieldException("No such field exists!");
 			}
 		}
 		
-		return isValidReigstration;
+		return errorBag.isEmpty();
 	}
 	
 	/**
@@ -101,7 +98,6 @@ public class RegistrationValidator {
 		for (Student record : records) {
 			if (record.getField("studentId").equals(value)) {
 				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다. 다시 입력해주세요.");
-				break;
 			}
 		}
 		
@@ -195,7 +191,8 @@ public class RegistrationValidator {
 	 * @param params 요청으로 받은 등록하려는 학생에 대한 정보
 	 */
 	private void getStudentRecords(Map<String, String> params){
-		this.records = new QueryBuilder(Student.class).select("studentId", "phoneNumber").getAll();
+		String[] columns = params.keySet().stream().toArray(String[]::new);
+		this.records = new QueryBuilder(Student.class).select(columns).getAll();
 	}
 	
 	/**

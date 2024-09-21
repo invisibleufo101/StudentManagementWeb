@@ -195,7 +195,7 @@ public class RegistrationValidator {
 	 * @param params 요청으로 받은 등록하려는 학생에 대한 정보
 	 */
 	private void getStudentRecords(Map<String, String> params){
-		this.records = new QueryBuilder(Student.class).select("studentId", "phoneNumber").getAll();
+		this.records = new QueryBuilder(Student.class).select(columns).getAll();
 	}
 	
 	/**

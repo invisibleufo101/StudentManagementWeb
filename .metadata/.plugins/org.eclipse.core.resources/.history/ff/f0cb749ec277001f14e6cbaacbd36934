@@ -101,7 +101,6 @@ public class RegistrationValidator {
 		for (Student record : records) {
 			if (record.getField("studentId").equals(value)) {
 				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다. 다시 입력해주세요.");
-				break;
 			}
 		}
 		
@@ -195,7 +194,8 @@ public class RegistrationValidator {
 	 * @param params 요청으로 받은 등록하려는 학생에 대한 정보
 	 */
 	private void getStudentRecords(Map<String, String> params){
-		this.records = new QueryBuilder(Student.class).select("studentId", "phoneNumber").getAll();
+		String[] columns = params.keySet().stream().toArray(String[]::new);
+		this.records = new QueryBuilder(Student.class).select(columns).getAll();
 	}
 	
 	/**

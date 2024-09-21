@@ -336,10 +336,13 @@ public class QueryBuilder {
 	public <T extends Model> List<T> getAll() {
 		String queryString = this.query.toString();
 		List<Object> resultParameters = this.parameters;
+
 		List<T> results = (List<T>) this.queryExecutor.fetchResults(queryString, resultParameters, this.modelClass);
 
 		clearQuery();
-				
+		
+		System.out.println(this.query.toString());
+		
 		return results;
 	}
 

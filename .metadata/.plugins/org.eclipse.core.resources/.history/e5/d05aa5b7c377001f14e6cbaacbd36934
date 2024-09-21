@@ -21,10 +21,8 @@ public class QueryExecutor {
 	public QueryExecutor() {}
 	
 	/**
-	 * QueryBuilder가 만든 Query String, PreparedStatement, 생성자 인자 값으로 받은 모델 객체를 받습니다.
-	 * JDBCUtil로 DB connection을 열고 가지고 있는 pstmt로  
-	 * 
-	 * 작업이 마무리되면 
+	 * SELECT문의 모든 결과 값들을 반환합니다.
+	 * JDBCUtil로 데이터베이스에 연결하고 데이터베이스 작업이 끝나면 커넥션을 닫습니다.
 	 * 
 	 * @param <T>		  모델 클래스의 자식 객
 	 * @param query		  SQL작업을 위해 필요한 Query String

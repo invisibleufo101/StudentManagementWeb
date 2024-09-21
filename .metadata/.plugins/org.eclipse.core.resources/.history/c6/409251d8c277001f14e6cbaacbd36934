@@ -15,6 +15,8 @@ import com.university.model.Model;
  * 객체의 쓰임새는 요즘 많은 프레임워크들이 가지고 있는 QueryBuilder에서 영감을 받았습니다.
  * 
  * 하지만 데이터베이스 테이블 하나만 매핑할 수 있어 진정한 QueryBuilder라고 보긴 어렵습니다.
+ * 
+ * 
  */
 public class QueryBuilder {
 
@@ -336,10 +338,13 @@ public class QueryBuilder {
 	public <T extends Model> List<T> getAll() {
 		String queryString = this.query.toString();
 		List<Object> resultParameters = this.parameters;
+
 		List<T> results = (List<T>) this.queryExecutor.fetchResults(queryString, resultParameters, this.modelClass);
 
 		clearQuery();
-				
+		
+		System.out.println(this.query.toString());
+		
 		return results;
 	}
 
