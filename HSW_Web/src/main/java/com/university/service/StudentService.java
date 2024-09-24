@@ -1,6 +1,7 @@
 package com.university.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.university.model.impl.Student;
 import com.university.querybuilder.QueryBuilder;
@@ -17,16 +18,26 @@ public class StudentService {
 	 * @param searchStudentId 학생 명단에 학번으로 학생 검색 기능을 구현하기 위한 조건 값 
 	 * @return 				  검색으로 찾으려는 학생
 	 */
-	public List<Student> getAllStudents(String searchStudentId) {
-		List<Student> students = queryBuilder.select("*").whereLike("studentId", searchStudentId + "%").getAll();
-		return students;
+	public List<Student> getAllStudents(String searchCategory, String searchKeyword) {
+		
+		if (searchCategory.equals("search_by_id")) {			
+			return queryBuilder.select("*").whereLike("studentId", searchKeyword + "%").getAll();
+		} else if (searchCategory.equals("search_by_name")) {
+			return queryBuilder.select("*").whereLike("name", "%" + searchKeyword + "%").getAll();
+		} else if (searchCategory.equals("search_by_major")) {
+			return queryBuilder.select("*").whereLike("major", searchKeyword + "%").getAll();
+		} else if (searchCategory.equals("search_by_phone_number")) {
+			return queryBuilder.select("*").whereLike("phoneNumber", "%" + searchKeyword + "%").getAll();
+		}
+		
+		return queryBuilder.select("*").getAll();
 	}
 	
 	/**
 	 * id 항목의 값을 바탕으로 특정한 학생을 검색합니다.
 	 * 
 	 * @param id Student 테이블에 있는 기본키 
-	 * @return	 검색하려는 Student 객
+	 * @return	 검색하려는 Student 객체
 	 */
 	public Student getStudent(Long id) {
 		Student student = queryBuilder.select("*").where("id", id).get();
@@ -63,7 +74,7 @@ public class StudentService {
 	/**
 	 * 기본키인 id 항목을 바탕으로 특정 학생을 데이터베이스에서 삭제합니다.
 	 * 
-	 * @param id student 테이블의 기본
+	 * @param id student 테이블의 기본키
 	 */
 	public void deleteStudent(Long id) {
 		queryBuilder.delete().where("id", id).execute();

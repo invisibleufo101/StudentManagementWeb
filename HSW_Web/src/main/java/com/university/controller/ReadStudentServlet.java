@@ -150,14 +150,14 @@ public class ReadStudentServlet extends HttpServlet {
 		out.println("<!-- Student Major Input -->"); 
 		out.println("<div data-mdb-input-init class='form-outline mb-3'>"); 
 		out.println("<label class='form-label text-muted' for='major'>학과</label>"); 
-		out.println("<input type='text' id='major' class='form-control' name='student_major' value='" + student.getField("major") + "' />"); 
+		out.println("<input type='text' id='major' class='form-control' name='student_major' value='" + student.getField("major") + "' placeholder='학과명' />"); 
 		out.println("</div>"); 
 		
 		// 전화번호
 		out.println("<!-- Student Telephone Number Input -->"); 
 		out.println("<div data-mdb-input-init class='form-outline mb-3'>"); 
 		out.println("<label class='form-label text-muted' for='student_tel'>전화번호</label>"); 
-		out.println("<input type='tel' id='student_tel' class='form-control' name='student_tel' value='" + student.getField("phoneNumber") + "' />"); 
+		out.println("<input type='tel' id='student_tel' class='form-control' name='student_tel' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678'/>"); 
 		out.println("</div>"); 
 		
 		// 입력

@@ -36,13 +36,22 @@ public class BrowseStudentsServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void showContent(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String searchId = request.getParameter("search_student_id");
-		if (searchId == null) {
-			searchId = "";
+
+		// 검색하는
+		String searchCategory = request.getParameter("search_student_category");
+		String searchKeyword = request.getParameter("search_student_keyword");
+		
+		if (searchCategory == null) {
+			searchCategory = "search_by_id";
+		}
+		
+		if (searchKeyword == null) {
+			searchKeyword = "";
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute("searchId", searchId);
+		session.setAttribute("searchCategory", searchCategory);
+		session.setAttribute("searchKeyword", searchKeyword);
 
 		PrintWriter out = response.getWriter();
 
@@ -129,8 +138,51 @@ public class BrowseStudentsServlet extends HttpServlet {
 		out.println("<form action='/browseStudents.do' method='POST'>");
 		out.println("<div class='row g-3 justify-content-end'>");
 		out.println("<div class='col-auto'>");
-		out.println("<input type='search' class='form-control' id='search_student_id' name='search_student_id' placeholder='학번으로 검색' value='"
-						+ session.getAttribute("searchId") + "'>");
+		
+		out.println("</div>");
+		
+		out.println("<div class='col-auto'>");
+		out.println("<div class='input-group'>");
+		
+		out.println("<div class='w-20'>");
+		out.println("<select class='form-select border rounded-start border-secondary' name='search_student_category'>");
+		
+		String category = (String) session.getAttribute("searchCategory");
+		if (category.equals("search_by_id")) {
+			out.println("<option value='search_by_id' selected> 학번 </option>");
+		} else {
+			out.println("<option value='search_by_id'> 학번 </option>");
+		}
+		
+		if (category.equals("search_by_name")) {
+			out.println("<option value='search_by_name' selected> 이름 </option>");
+		} else {
+			out.println("<option value='search_by_name'> 이름 </option>");
+		}
+		
+		if (category.equals("search_by_major")) {			
+			out.println("<option value='search_by_major' selected> 학과 </option>");
+		} else {
+			out.println("<option value='search_by_major'> 학과 </option>");
+		}
+		
+		if (category.equals("search_by_phone_number")) {			
+			out.println("<option value='search_by_phone_number' selected> 전화번호 </option>");
+		} else {
+			out.println("<option value='search_by_phone_number'> 전화번호 </option>");
+		}
+		
+		out.println("</select>");
+		out.println("</div>");
+		
+		out.println("<div class=''>");
+		
+		out.println("</div>");
+		
+		
+		out.println("<input type='search' class='form-control border border-secondary' id='search_student_keyword' name='search_student_keyword' placeholder='검색' value='"
+						+ session.getAttribute("searchKeyword") + "'>");
+		out.println("</div>");
 		out.println("</div>");
 		out.println("<div class='col-auto'>");
 		out.println("<button type='submit' class='btn btn-primary mb-3'>검색</button>");
@@ -151,9 +203,9 @@ public class BrowseStudentsServlet extends HttpServlet {
 
 		// Rows of Student record from the Database
 		StudentService studentService = new StudentService();
-		String keyword = (String) session.getAttribute("searchId");
-		List<Student> students = studentService.getAllStudents(keyword);
-
+		String keyword = (String) session.getAttribute("searchKeyword");
+		
+		List<Student> students = studentService.getAllStudents(category, keyword);
 		// If there are no students in the SEARCH RESULT
 		if (!keyword.equals("") && students.isEmpty()) {
 			out.println("<tr>");
