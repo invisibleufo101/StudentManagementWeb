@@ -44,7 +44,7 @@ public class StudentService {
 		String major = (String) student.getField("major");
 		String phoneNumber = (String) student.getField("phoneNumber");
 		
-		queryBuilder.insert("studentId", "name", "major", "phoneNumber").values(studentId, name, major, phoneNumber).execute();
+		queryBuilder.insert("studentId", "name", "major", "phoneNumber").values(studentId, name, major, phoneNumber).execute();		
 	}
 	
 	/**

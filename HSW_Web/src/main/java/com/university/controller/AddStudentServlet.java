@@ -18,30 +18,31 @@ public class AddStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 사용자가 학생 등록 페이지에 작성한 폼을 기반으로 새로운 학생 데이터를 student 테이블에 넣습니다.
-	 * 해당 Servlet 객체에 들어오는 HttpRequest들은 이미 예외처리 된 상태입니다.
+	 * 사용자가 학생 등록 페이지에 작성한 폼을 기반으로 새로운 학생 데이터를 student 테이블에 넣습니다. 해당 Servlet 객체에
+	 * 들어오는 HttpRequest들은 이미 예외처리 된 상태입니다.
 	 * 
 	 * @param 사용자 요청
 	 * @param 새로운 학생 등록 작업을 마친 뒤 사용자를 다시 학생 명단 페이지로 보냅니다.
 	 * 
 	 * @throws ServletException, IOException
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String studentId = request.getParameter("student_id").strip();
-		String name = request.getParameter("student_name").strip();
-		String major = request.getParameter("student_major").strip();
-		String phoneNumber = request.getParameter("student_tel").strip();
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String studentId = request.getParameter("student_id").replace(" ", "");
+		String name = request.getParameter("student_name").replace(" ", "");
+		String major = request.getParameter("student_major").replace(" ", "");
+		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+
 		Student newStudent = new Student();
 		newStudent.setField("studentId", studentId);
 		newStudent.setField("name", name);
 		newStudent.setField("major", major);
 		newStudent.setField("phoneNumber", phoneNumber);
-		
+
 		StudentService studentService = new StudentService();
 		studentService.createStudent(newStudent);
-				
+
 		response.sendRedirect("/browseStudents.do");
 	}
 

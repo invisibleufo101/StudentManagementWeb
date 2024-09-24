@@ -8,6 +8,12 @@ import java.sql.SQLException;
 
 public class JDBCUtil {
 	
+	/**
+	 * DriverManager 객체를 이용하여 H2 데이터베이스에 연결을 합니다.
+	 * 
+	 * 연결을 실패할 경우 null값을 반환합니다.
+	 * @return
+	 */
 	public static Connection getConnection() {
 		Connection conn = null;
 		
@@ -25,6 +31,14 @@ public class JDBCUtil {
 		return conn;
 	}
 	
+	
+	/**
+	 * H2 데이터베이스에 연결을 끊습니다.
+	 * PreparedStatement, Connection 객체들이 null 상태인지 먼저 확인한 후 연결을 끊습니다.
+	 * 
+	 * @param pstmt
+	 * @param conn
+	 */
 	public static void close(PreparedStatement pstmt, Connection conn) {
 		try {
 			if (pstmt != null) {				
@@ -43,6 +57,13 @@ public class JDBCUtil {
 		}
 	}
 	
+	/**
+	 * H2 데이터베이스에 연결을 끊습니다. QueryBuilder에서 get(), getAll() 메소드를 위한 연결을 끊는 방식입니다.
+	 * 각 ResultSet, PreparedStatement, Connection 객체들이 null 상태인지 먼저 확인한 후 연결을 끊습니다.
+	 * 
+	 * @param pstmt
+	 * @param conn
+	 */
 	public static void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		try {
 			if (rs != null) {				

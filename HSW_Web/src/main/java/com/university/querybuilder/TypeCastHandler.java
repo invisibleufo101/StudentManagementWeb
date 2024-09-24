@@ -6,9 +6,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class TypeCastHandler {
-	
-	public TypeCastHandler() {}
-	
+
+	public TypeCastHandler() {
+	}
 
 	public static Object getValidFieldType(Object value) {
 		if (value instanceof String) {
@@ -29,16 +29,16 @@ public class TypeCastHandler {
 			return (Float) value;
 		} else if (value instanceof Long) {
 			return (Long) value;
-		} else if (value instanceof Date) { // (!) This is java.sql.Date 
+		} else if (value instanceof Date) { // (!) This is java.sql.Date
 			return (Date) value;
-		} 
-		
+		}
+
 		return value;
 	}
-	
-	// Converts the data type dervied from ResultSet (rs.getObject()) 
+
+	// Converts the data type dervied from ResultSet (rs.getObject())
 	public static Object convertToFieldType(Field field, Object value) {
-		if (value instanceof BigDecimal) {				
+		if (value instanceof BigDecimal) {
 			if (field.getType() == int.class) {
 				return ((BigDecimal) value).intValue();
 			} else if (field.getType() == double.class) {
@@ -47,15 +47,15 @@ public class TypeCastHandler {
 				return ((BigDecimal) value).longValueExact();
 			} else if (field.getType() == float.class) {
 				return ((BigDecimal) value).floatValue();
-			} 
+			}
 		} else if (value instanceof Timestamp && field.getType() == Date.class) {
 			return new Date(((Timestamp) value).getTime());
 		} else if (value instanceof Boolean && field.getType() == boolean.class) {
 			return (Boolean) value;
 		} else if (value instanceof String && field.getType() == String.class) {
 			return (String) value;
-		} 
-		
+		}
+
 		return value;
 	}
 }

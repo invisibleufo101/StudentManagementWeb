@@ -26,8 +26,8 @@ public class EditStudentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String stringId = request.getParameter("id");
 		Long id = Long.parseLong(stringId);
-		String major = request.getParameter("student_major").trim();
-		String phoneNumber = request.getParameter("student_tel").trim();
+		String major = request.getParameter("student_major").replace(" ", "");
+		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
 		
 		Student updateStudent = new Student();
 		updateStudent.setField("id", id);

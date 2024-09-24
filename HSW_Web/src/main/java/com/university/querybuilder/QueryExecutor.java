@@ -22,7 +22,7 @@ public class QueryExecutor {
 	
 	/**
 	 * QueryBuilder가 만든 Query String, PreparedStatement, 생성자 인자 값으로 받은 모델 객체를 받습니다.
-	 * JDBCUtil로 DB connection을 열고 가지고 있는 pstmt로  
+	 * JDBCUtil로 DB connection을 열고 가지고 있는 pstmt로 
 	 * 
 	 * 작업이 마무리되면 
 	 * 

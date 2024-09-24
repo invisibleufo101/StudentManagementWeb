@@ -21,7 +21,7 @@ public class ReadStudentServlet extends HttpServlet {
 
 	/**
 	 * 사용자의 요청에서 학생 ID를 추출하고
-	 * 해당 id를 사용하여 학생 정보를 조회합니다.
+	 * 해당 id를 사용하여 해당 학생 정보를 조회합니다.
 	 * 
 	 * @param request  HttpServletRequest 객체
 	 * @param response HttpServletResponse 객체
@@ -131,6 +131,7 @@ public class ReadStudentServlet extends HttpServlet {
 		out.println("<!-- Edit Form -->"); 
 		out.println("<form action='/editStudent.do' method='POST'>"); 
 		out.println("<input type='hidden' name='id' value='" + student.getField("id") + "'/>");
+		
 		// 학번
 		out.println("<!-- Student ID -->"); 
 		out.println("<div data-mdb-input-init class='form-outline mb-3'>"); 

@@ -1,6 +1,5 @@
 package com.university.validator;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class RegistrationValidator {
 	 * Student 객체의 각 필드 값에 따라 해당하는 메소드로 올바른 값의 유무를 결정합니다.
 	 * 
 	 * 예외를 발생시틸 때마다 errorBag 맵이 예외를 담으며 이 메소드의 실행이 끝났을 때
-	 * errorBag의 크기를 반환합니다.
+	 * errorBag의 크기를 반환해서 validation의.
 	 * 
 	 * @param requestParams register_student.html 파일에서 받은 인자 값들
 	 * @return 				해당 정보가 올바르게 입력되었는지 나타내는 boolean 변수
@@ -28,9 +27,7 @@ public class RegistrationValidator {
 	 */
 	public boolean validate(Map<String, String> requestParams) throws NoSuchFieldException {
 		getStudentRecords(requestParams);
-		
-		boolean isValidReigstration = true;
-		
+				
 		for (Map.Entry<String, String> entry : requestParams.entrySet()) {
 			String field = entry.getKey();
 			String value = entry.getValue();
@@ -39,25 +36,25 @@ public class RegistrationValidator {
 			switch(field) {
 				case "studentId":
 					if (!validateStudentId(value)) {
-						isValidReigstration = false;
+						return false;
 					}
 					break;
-				
+					
 				case "name":
 					if (!validateName(value)) {
-						isValidReigstration = false;
+						return false;
 					}
 					break;
 				
 				case "major":
 					if (!validateMajor(value)) {
-						isValidReigstration = false;
+						return false;
 					}
 					break;
 				
 				case "phoneNumber":
 					if (!validatePhoneNumber(value)) {
-						isValidReigstration = false;
+						return false;
 					}
 					break;
 				
@@ -66,7 +63,7 @@ public class RegistrationValidator {
 			}
 		}
 		
-		return isValidReigstration;
+		return true;
 	}
 	
 	/**
@@ -100,7 +97,7 @@ public class RegistrationValidator {
 		// Unique Constraint
 		for (Student record : records) {
 			if (record.getField("studentId").equals(value)) {
-				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다. 다시 입력해주세요.");
+				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다. <br><br> 다시 입력해주세요.");
 				break;
 			}
 		}
@@ -153,7 +150,7 @@ public class RegistrationValidator {
 		
 		String majorPattern = "^[가-힣]+학과$";
 		if (!value.matches(majorPattern)) {
-			errorBag.put("InvalidMajorException", "학과명은 반드시 한글로 작성하고 '학과'로 끝나야합니다. 다시 입력해주세요.");
+			errorBag.put("InvalidMajorException", "학과명은 반드시 한글로 작성하고 '학과'로 끝나야합니다. <br><br> 다시 입력해주세요.");
 		}
 		
 		return errorBag.isEmpty();
@@ -181,7 +178,7 @@ public class RegistrationValidator {
 		
 		for (Student record : records) {
 			if (record.getField("phoneNumber").equals(value)) {
-				errorBag.put("DuplicatePhoneNumberException", "이미 존재하는 전화번호입니다. 다시 입력해주세요.");
+				errorBag.put("DuplicatePhoneNumberException", "이미 존재하는 전화번호입니다. <br><br> 다시 입력해주세요.");
 				break;
 			}
 		}

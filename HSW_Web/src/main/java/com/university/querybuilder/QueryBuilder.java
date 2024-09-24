@@ -11,6 +11,7 @@ import java.util.List;
 import com.university.model.Model;
 
 /**
+ * 
  * 기존의 DAO패턴으로 데이터베이스 CRUD 작업을 하는 것이 불편해서 만들어 본 토이 프로젝트입니다.
  * 객체의 쓰임새는 요즘 많은 프레임워크들이 가지고 있는 QueryBuilder에서 영감을 받았습니다.
  * 
@@ -27,6 +28,8 @@ public class QueryBuilder {
 	/**
 	 * QueryBuilder 객체는 Model 자식 클래스를 인자 값으로 받아 SELECT 쿼리문을 실행할 때 
 	 * 모델 객체로 결과 값들을 담아서 반환합니다.
+	 * 
+	 * QueryBuilder 객체는 쿼리문을 직접
 	 * 
 	 * QueryExecutor 객체는 대신 쿼리문을 실행해주는 객체입니다.
 	 * @param modelClass Data Container로 쓸 Model 자식 클래스
@@ -383,7 +386,7 @@ public class QueryBuilder {
 		this.query.setLength(0);
 		this.parameters.clear();
 	}
-	 
+	
 	/**
 	 *  QueryBuilder 객체의 메소드를 쓰는 사용자 편의성을 위해 만들었습니다. 
 	 *  데이터베이스에서는 객체의 이름을 snake_case로 쓰는 것이 일반적이지만 자바에서는 camelCase가 표준입니다. 
