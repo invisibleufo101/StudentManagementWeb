@@ -32,7 +32,6 @@ public class RegistrationValidator {
 			String field = entry.getKey();
 			String value = entry.getValue();
 			
-			// 학생 등록 폼 필드에 예외가 발생하면 조기 반환을 하는 것이 아닌 boolean 변수에 값을 저
 			switch(field) {
 				case "studentId":
 					if (!validateStudentId(value)) {
@@ -79,7 +78,7 @@ public class RegistrationValidator {
 	 */
 	private boolean validateStudentId(String value) {
 		// Not Null Integrity
-		if (value == null || value.equals("")) {
+		if (value == null) {
 			errorBag.put("NullStudentIdException", "학번을 입력해주세요.");
 		}
 		
@@ -97,7 +96,7 @@ public class RegistrationValidator {
 		// Unique Constraint
 		for (Student record : records) {
 			if (record.getField("studentId").equals(value)) {
-				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다. <br><br> 다시 입력해주세요.");
+				errorBag.put("DuplicateStudentIdException", "이미 존재하는 학번입니다.");
 				break;
 			}
 		}
@@ -117,8 +116,8 @@ public class RegistrationValidator {
 	 * @return		올바른 형식의 이름인지의 boolean 표현
 	 */
 	private boolean validateName(String value) {
-		if (value.equals("") || value == null) {
-			errorBag.put("NullException", "이름을 입력해주세요.");
+		if (value == null) {
+			errorBag.put("NullNameException", "이름을 입력해주세요.");
 		}
 		
 		if (value.length() < 2 && value.length() >= 8) {
@@ -144,13 +143,13 @@ public class RegistrationValidator {
 	 * @return 		입력 받은 전공이 올바른 형식인지 판단하는 boolean 표현
 	 */
 	private boolean validateMajor(String value) {
-		if (value.equals("") || value == null) {
-			errorBag.put("NullException", "학과명을 입력해주세요.");
+		if (value == null) {
+			errorBag.put("NullMajorException", "학과명을 입력해주세요.");
 		}
 		
 		String majorPattern = "^[가-힣]+학과$";
 		if (!value.matches(majorPattern)) {
-			errorBag.put("InvalidMajorException", "학과명은 반드시 한글로 작성하고 '학과'로 끝나야합니다. <br><br> 다시 입력해주세요.");
+			errorBag.put("InvalidMajorException", "학과명은 반드시 한글로 작성하고 '학과'로 끝나야합니다.");
 		}
 		
 		return errorBag.isEmpty();
@@ -167,8 +166,8 @@ public class RegistrationValidator {
 	 * @return		전화번호의 형식이 올바른지 판단하는 boolean 표현
 	 */
 	private boolean validatePhoneNumber(String value) {
-		if (value.equals("") || value == null) {
-			errorBag.put("NullException", "전화번호를 입력해주세요.");
+		if (value == null) {
+			errorBag.put("NullPhoneNumberException", "전화번호를 입력해주세요.");
 		}
 		
 		String phoneNumberPattern = "010-\\d{4}-\\d{4}";

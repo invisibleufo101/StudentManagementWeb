@@ -30,4 +30,26 @@ public class DeleteStudentServlet extends HttpServlet {
 
 		response.sendRedirect("/browseStudents.do");
 	}
+
+	/**
+	 * BrowseStudentServlet 객체에서 받은 다량 학생 삭제 요청을 받는 메소드입니다.
+	 * Student Service 객체를 생성한 뒤 Bro
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String[] rowIds = (String[]) request.getAttribute("rowIds");
+		
+		if (rowIds != null) {
+			StudentService studentService = new StudentService();
+			for (String rowId : rowIds) {
+				Long id = Long.parseLong(rowId);
+				studentService.deleteStudent(id);
+			}
+		}
+		request.removeAttribute("rowIds");
+		response.sendRedirect("/browseStudents.do");
+	}
+
+	
+	
+	
 }

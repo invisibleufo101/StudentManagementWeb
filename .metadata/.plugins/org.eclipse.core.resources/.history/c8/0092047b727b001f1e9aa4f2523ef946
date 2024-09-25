@@ -1,0 +1,2 @@
+let updateMajorInput = document.getElementById('student_major');
+let updateMajorError = document.getElementById('');

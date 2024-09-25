@@ -27,7 +27,7 @@ public class EditStudentServlet extends HttpServlet {
 		String stringId = request.getParameter("id");
 		Long id = Long.parseLong(stringId);
 		String major = request.getParameter("student_major").replace(" ", "");
-		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+		String phoneNumber = request.getParameter("student_phone_number").replace(" ", "");
 		
 		Student updateStudent = new Student();
 		updateStudent.setField("id", id);

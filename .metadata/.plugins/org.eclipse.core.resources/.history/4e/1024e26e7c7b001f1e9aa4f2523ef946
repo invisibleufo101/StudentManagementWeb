@@ -1,0 +1,38 @@
+function checkAllRows(tableHeadCheckBox) {
+let checkboxes = document.querySelectorAll('input[type="checkbox"].row-checkbox');
+checkboxes.forEach(checkbox => checkbox.checked = tableHeadCheckBox.checked);
+}
+let studentIdInput = document.getElementById('student_id');
+let studentIdError = document.getElementById('student_id_error');
+let studentNameInput = document.getElementById('student_name');
+let studentNameError = document.getElementById('student_name_error');
+console.log(studentNameError.textContent);
+if (studentNameError.textContent === ''){ console.log('TRUE');
+let studentMajorInput = document.getElementById('student_major');
+let studentMajorError = document.getElementById('student_major_error');
+let studentPhoneNumberInput = document.getElementById('student_phone_number');
+let studentPhoneNumberError = document.getElementById('student_phone_number_error');
+document.addEventListener('DOMContentLoaded', function() {
+const registerModal = new bootstrap.Modal(document.getElementById('registerStudentModal'));
+registerModal.show();
+});
+const registerModal = document.getElementById('registerStudentModal');
+registerModal.addEventListener('hide.bs.modal', () => {
+	studentIdInput.classList.remove('border-danger');
+	studentIdInput.value = '';
+	studentIdError.textContent = '';
+	if (studentNameError.textContent === ''){
+		console.log("TRUE");
+	}
+	
+
+studentNameInput.classList.remove('border-danger');
+studentNameInput.value = '';
+studentNameError.remove();
+studentMajorInput.classList.remove('border-danger');
+studentMajorInput.value = '';
+studentMajorError.remove();
+studentPhoneNumberInput.classList.remove('border-danger');
+studentPhoneNumberInput.value = '';
+studentPhoneNumberError.remove();
+}

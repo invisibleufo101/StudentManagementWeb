@@ -32,7 +32,7 @@ public class AddStudentServlet extends HttpServlet {
 		String studentId = request.getParameter("student_id").replace(" ", "");
 		String name = request.getParameter("student_name").replace(" ", "");
 		String major = request.getParameter("student_major").replace(" ", "");
-		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+		String phoneNumber = request.getParameter("student_phone_number").replace(" ", "");
 
 		Student newStudent = new Student();
 		newStudent.setField("studentId", studentId);

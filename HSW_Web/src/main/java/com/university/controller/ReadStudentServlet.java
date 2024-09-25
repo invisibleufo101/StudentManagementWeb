@@ -2,12 +2,15 @@ package com.university.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.university.model.impl.Student;
 import com.university.service.StudentService;
@@ -31,7 +34,7 @@ public class ReadStudentServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String stringId = request.getParameter("id");
 		this.stringId = stringId;
-		showContent(response);
+		showContent(request, response);
 	}
 	
 	/**
@@ -40,9 +43,27 @@ public class ReadStudentServlet extends HttpServlet {
 	 * @param response HttpServletResponse 객체
 	 * @throws IOException
 	 */
-	private void showContent(HttpServletResponse response) throws IOException {
+	private void showContent(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Student student = getStudentInfo(stringId);
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		
+		@SuppressWarnings("unchecked")
+		Map<String,String> errors = (LinkedHashMap<String,String>) session.getAttribute("updateErrors");
+		Boolean isValidUpdate = (Boolean) session.getAttribute("isValidUpdate");
+
+		if (errors == null) {
+			errors = new LinkedHashMap<String,String>();
+		}
+		
+		if (isValidUpdate == null) {
+			isValidUpdate = true;
+		}
+		
+//		String registerStudentMajor = (String) session.getAttribute("registerStudentMajor");
+//		if (registerStudentMajor == null) {
+//			registerStudentMajor = "";
+//		}
 		
 		// Head
 		out.println("<!DOCTYPE html>"); 
@@ -51,7 +72,6 @@ public class ReadStudentServlet extends HttpServlet {
 		out.println("<meta charset='UTF-8'>"); 
 		out.println("<meta name='viewport' content='width=device-width, initial-scale=1'>"); 
 		out.println("<link rel='stylesheet' href='css/bootstrap.min.css' />"); 
-		out.println("<link rel='stylesheet' href='css/style.css'/>"); 
 		out.println("<script defer src='js/bootstrap.bundle.min.js'></script>"); 
 		out.println("<link rel='icon' href='images/portal_icon.svg'/>"); 
 		out.println("<title>학생 관리 포털</title>"); 
@@ -82,36 +102,24 @@ public class ReadStudentServlet extends HttpServlet {
 		out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>"); 
 		out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25' />"); 
 		out.println("</svg>"); 
-		out.println("<p class='m-0'>홈</p>"); 
+		out.println("<p class='m-0'>메뉴 홈</p>"); 
 		out.println("</div>"); 
 		out.println("</a>"); 
 		out.println("</li>"); 
 		
 		// 학생 조회 및 검색
-		out.println("<!-- List and Search Students -->"); 
+		out.println("<!-- Manage Students -->"); 
 		out.println("<li>"); 
 		out.println("<a href='/browseStudents.do' class='nav-link text-white'>"); 
 		out.println("<div class='d-flex align-items-center'>"); 
-		out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>"); 
-		out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z' />"); 
+		out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>");
+		out.println("<path stroke-linecap='round' stroke-linejoin='round' d='M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z' />");
 		out.println("</svg>"); 
-		out.println("<p class='m-0'>학생 조회 및 검색</p>"); 
+		out.println("<p class='m-0'>학생 관리</p>"); 
 		out.println("</div>"); 
 		out.println("</a>"); 
 		out.println("</li>"); 
 		
-		// 학생 등록
-		out.println("<!-- Register Student -->"); 
-		out.println("<li>"); 
-		out.println("<a href='/register_student.html' class='nav-link text-white'>"); 
-		out.println("<div class='d-flex align-items-center'>"); 
-		out.println("<svg class='bi me-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='16' height='16'>"); 
-		out.println("<path stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10' />"); 
-		out.println("</svg>"); 
-		out.println("<p class='m-0'>학생 등록</p>"); 
-		out.println("</div>"); 
-		out.println("</a>"); 
-		out.println("</li>"); 
 		out.println("</ul>"); 
 		out.println("<hr/>"); 
 		out.println("</nav>"); 
@@ -120,12 +128,16 @@ public class ReadStudentServlet extends HttpServlet {
 		// 학생 정보 수정
 		out.println("<section class='d-flex justify-content-center align-items-center' style='width: 75vw; height: auto; background-color: #ced9c7;'>"); 
 		out.println("<!-- Start of Student Registration Form -->"); 
-		out.println("<div class='card rounded-3 text-black border border-2 border-light-subtle'>"); 
+		out.println("<div class='w-50 card rounded-3 text-black border border-2 border-light-subtle'>"); 
 		out.println("<div class='col-lg-12'>"); 
 		out.println("<div class='card-body p-md-5 mx-md-4'>"); 
 		out.println("<div class='text-center'>"); 
 		out.println("<h4 class='w-100 mt-1 mb-5 pb-1'>학생 수정</h4>"); 
 		out.println("</div>"); 
+		out.println("<ol class='mb-5'>");
+		out.println("<li class='mb-2'><b>학과:</b> 한글로 입력하시고 '학과'로 끝나게 작성해주세요.</li>");
+		out.println("<li class='mb-2'><b>전화번호:</b> [ 010-1234-5678 ] 형식으로 작성해주세요.</li>");
+		out.println("</ol>");
 		
 		// 정보 수정 폼
 		out.println("<!-- Edit Form -->"); 
@@ -149,22 +161,47 @@ public class ReadStudentServlet extends HttpServlet {
 		// 전공
 		out.println("<!-- Student Major Input -->"); 
 		out.println("<div data-mdb-input-init class='form-outline mb-3'>"); 
-		out.println("<label class='form-label text-muted' for='major'>학과</label>"); 
-		out.println("<input type='text' id='major' class='form-control' name='student_major' value='" + student.getField("major") + "' placeholder='학과명' />"); 
+		out.println("<label class='form-label text-muted' for='major'>학과</label>");
+		
+		if (errors.containsKey("NullMajorException")) {
+			out.println("<input type='text' id='student_major' class='form-control border-danger' name='student_major' value='" + student.getField("major") + "' placeholder='학과명' autofocus/>");
+			out.println("<p id='student_major_error' class='text-danger fs-6'>*" + errors.get("NullMajorException") + "</p>");
+		} else if (errors.containsKey("InvalidMajorException")) {
+			out.println("<input type='text' id='student_major' class='form-control border-danger' name='student_major' value='" + student.getField("major") + "' placeholder='학과명' autofocus/>");
+			out.println("<p id='student_major_error' class='text-danger fs-6'>*" + errors.get("InvalidMajorException") + "</p>");
+		} else {
+			out.println("<input type='text' id='student_major' class='form-control' name='student_major' value='" + student.getField("major") + "' placeholder='학과명' />"); 
+		}
 		out.println("</div>"); 
 		
 		// 전화번호
 		out.println("<!-- Student Telephone Number Input -->"); 
 		out.println("<div data-mdb-input-init class='form-outline mb-3'>"); 
-		out.println("<label class='form-label text-muted' for='student_tel'>전화번호</label>"); 
-		out.println("<input type='tel' id='student_tel' class='form-control' name='student_tel' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678'/>"); 
+		out.println("<label class='form-label text-muted' for='student_tel'>전화번호</label>");
+		
+		if (errors.containsKey("NullPhoneNumberException")) {
+			out.println("<input type='tel' id='student_phone_number' class='form-control border-danger' name='student_phone_number' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678' autofocus/>");
+			out.println("<p id='student_phone_number_error' class='text-danger fs-6'>*" + errors.get("NullPhoneNumberException") + "</p>");
+		} else if (errors.containsKey("InvalidPhoneNumberException")) {
+			out.println("<input type='tel' id='student_phone_number' class='form-control border-danger' name='student_phone_number' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678' autofocus/>");
+			out.println("<p id='student_phone_number_error' class='text-danger fs-6'>*" + errors.get("InvalidPhoneNumberException") + "</p>");
+		} else if (errors.containsKey("DuplicatePhoneNumberException")) {
+			out.println("<input type='tel' id='student_phone_number' class='form-control border-danger' name='student_phone_number' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678' autofocus/>");
+			out.println("<p id='student_phone_number_error' class='text-danger fs-6'>*" + errors.get("DuplicatePhoneNumberException") + "</p>");
+		} else {			
+			out.println("<input type='tel' id='student_phone_number' class='form-control' name='student_phone_number' value='" + student.getField("phoneNumber") + "' placeholder='010-1234-5678'/>"); 
+		}
+		
 		out.println("</div>"); 
 		
 		// 입력
 		out.println("<!-- Submit -->"); 
 		out.println("<div class='text-center pt-1 mb-5 pb-1'>"); 
-		out.println("<div class='d-grid gap-2'>"); 
-		out.println("<button data-mdb-button-init data-mdb-ripple-init class='btn btn-primary fa-lg gradient-custom-2 mb-3' type='submit'>수정</button>"); 
+		out.println("<div class='d-grid gap-2'>");
+		out.println("<div class='row'>");
+		out.println("<button data-mdb-button-init data-mdb-ripple-init class='btn btn-primary fa-lg gradient-custom-2 mb-3' type='submit'>수정</button>");
+		out.println("<button data-mdb-button-init data-mdb-ripple-init class='btn btn-secondary fa-lg gradient-custom-2 mb-3' type='button' onclick='location=\"/browseStudents.do\"'>뒤로</button>");
+		out.println("</div>");
 		out.println("</div>"); 
 		out.println("</div>"); 
 		out.println("</form>"); 
@@ -176,8 +213,10 @@ public class ReadStudentServlet extends HttpServlet {
 		out.println("</main>"); 
 		out.println("</body>"); 
 		out.println("</html>");
-		
+				
 		out.close();
+		
+		session.invalidate();
 	}
 	
 	/**

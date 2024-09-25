@@ -55,11 +55,11 @@ public class UpdateValidator {
 	 */
 	private boolean validateUpdatedMajor(String value) {
 		if (value.equals("") || value == null) {
-			errorBag.put("NullException", "학과명을 입력해주세요.");
+			errorBag.put("NullMajorException", "학과명을 입력해주세요.");
 		}
 		String majorPattern = "^[가-힣]+학과$";
 		if (!value.matches(majorPattern)) {
-			errorBag.put("InvalidMajorException", "학과명은 반드시 '학과'로 끝나야합니다. 다시 입력해주세요.");
+			errorBag.put("InvalidMajorException", "학과명은 반드시 한글로 되어야 하며 '학과'로 끝나야합니다.");
 		}
 		return errorBag.isEmpty();
 	}
@@ -77,7 +77,7 @@ public class UpdateValidator {
 	 */
 	private boolean validateUpdatedPhoneNumber(String value) {
 		if (value.equals("") || value == null) {
-			errorBag.put("NullException", "전화번호를 입력해주세요.");
+			errorBag.put("NullPhoneNumberException", "전화번호를 입력해주세요.");
 		}
 		
 		String phoneNumberPattern = "010-\\d{4}-\\d{4}";
@@ -90,7 +90,7 @@ public class UpdateValidator {
 		List<Student> records = new QueryBuilder(Student.class).select("id", "phoneNumber").getAll();
 		for (Student record : records) {
 			if (record.getField("phoneNumber").equals(value) && record.getField("id") != updateRowId) {
-				errorBag.put("DuplicatePhoneNumberException", "이미 존재하는 전화번호입니다. 다시 입력해주세요.");
+				errorBag.put("DuplicatePhoneNumberException", "이미 존재하는 전화번호입니다.");
 				break;
 			}
 		}

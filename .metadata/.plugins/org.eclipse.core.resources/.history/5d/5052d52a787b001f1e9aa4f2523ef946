@@ -1,0 +1,107 @@
+package com.university.filter;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.university.validator.RegistrationValidator;
+
+// /editStudent.do
+@WebFilter(urlPatterns = "/addStudent.do")
+public class StudentRegistrationFilter extends HttpFilter implements Filter {
+
+	private static final long serialVersionUID = 1L;
+
+	public StudentRegistrationFilter() {
+	}
+
+	/**
+	 * 사용자가 학생을 새로 등록 했을 때 요청을 가로채고 해당 정보들을 Registration Validator 객체에 보내서 예외 처리를
+	 * 합니다.
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		request.setCharacterEncoding("UTF-8");
+
+		Map<String, String> registrationParams = new LinkedHashMap<>();
+		
+//		String studentId = request.getParameter("student_id").replace(" ", "");
+//		String name = request.getParameter("student_name").replace(" ", "");
+//		String major = request.getParameter("student_major").replace(" ", "");
+//		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+		
+		String studentId = request.getParameter("student_id");
+		if (studentId != null) {
+			studentId = studentId.replace(" ", "");
+		} else {
+			studentId = "";
+		}
+		
+		String name = request.getParameter("student_name");
+		if (name != null) {
+			name = name.replace(" ", "");
+		} else {
+			name = "";
+		}
+		
+		String major = request.getParameter("student_major");
+		if (major != null) {
+			major = major.replace(" ", "");
+		} else {
+			major = "";
+		}
+		
+		String phoneNumber = request.getParameter("student_phone_number");
+		if (phoneNumber != null) {
+			phoneNumber = phoneNumber.replace(" ", "");
+		} else {
+			phoneNumber = "";
+		}
+
+		registrationParams.put("studentId", studentId);
+		registrationParams.put("name", name);
+		registrationParams.put("major", major);
+		registrationParams.put("phoneNumber", phoneNumber);
+
+		RegistrationValidator registrationValidator = new RegistrationValidator();
+		try {
+			if (!registrationValidator.validate(registrationParams)) {
+				Map<String, String> errors = registrationValidator.getErrorBag();
+				Boolean isValidRegistration = false;
+				HttpSession session = ((HttpServletRequest) request).getSession();
+				// Sending validation flag and error messages to /browseStudents.do
+				session.setAttribute("isValidRegistration", isValidRegistration);
+				session.setAttribute("registrationErrors", errors);
+				
+				// Sending Registration form inputs to /browseStudents.do
+				session.setAttribute("registerStudentId", studentId);
+				session.setAttribute("registerStudentName", name);
+				session.setAttribute("registerStudentMajor", major);
+				session.setAttribute("registerStudentPhoneNumber", phoneNumber);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/browseStudents.do");
+				dispatcher.forward(request, response);
+				return;
+			}
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+
+		chain.doFilter(request, response);
+	}
+}

@@ -33,46 +33,72 @@
 						</div>
 					</a>
 				</li>
-				<!-- List and Search Students -->
+				<!-- Manager Students -->
 				<li>
 					<a href="/browseStudents.do" class="nav-link text-white">
 						<div class="d-flex align-items-center">
 							<svg class="bi me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+  								<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
 							</svg>
-							<p class="m-0">학생 조회 및 검색</p>
+							<p class="m-0">학생 관리</p>
 						</div>
 					</a>
-				</li>
-				<!-- Register Student -->
-				<li>
-					<a href="/register_student.html" class="nav-link text-white">
-						<div class="d-flex align-items-center">
-							<svg class="bi me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-							</svg>
-							<p class="m-0">학생 등록</p>
-						</div>
-					</a>
-				</li>
+				</li>				
 			</ul>
 			<hr/>
 		</nav>
-		<!-- End of Navbar -->
+
 		<section class="d-flex justify-content-center align-items-center" style="width: 75vw; height: auto; background-color: #ced9c7;">
-			<div class="d-flex flex-column align-items-center h-50 w-50 bg-white rounded-3 p-5">
-				<h3 class="text-black">환영합니다 관리자님!</h3>
-				<ul class="text-decroation-none py-5 d-flex flex-column align-items-evenly justify-content-start">
-					<li class="my-2">
-						<span class="fs-5">학생들을 조회, 수정, 삭제를 하실려면 전체 학생 조회를 클릭하십시오.</span>
-					</li>
-					
-					<li class="my-2">
-						<span class="fs-5">학생을 등록하실려면 학생 등록을 클릭하십시오.</span>
-					</li>
-				</ul>
-			</div>
-		</section>
+    <div class="w-100 h-75 d-flex flex-column align-items-center h-50 w-50 bg-white rounded-3 p-5">
+        <h3 class="text-black">환영합니다 관리자님!</h3>
+        <ul class="text-decoration-none py-5">
+            <li class="mb-3">
+                <span class="fs-5">학생을 등록하실려면</span>
+                <ul class="list-unstyled mt-2">
+                    <li>- 상단 왼쪽의 <span class="text-success fw-bold">등록</span> 버튼을 클릭하세요.</li>
+                    <li>- 모달 창에서 학생의 학번, 이름, 전공, 전화번호를 입력하세요.</li>
+                </ul>
+            </li>
+            <li class="mb-3">
+                <span class="fs-5">학생을 조회하실려면</span>
+                <ul class="list-unstyled mt-2">
+                    <li>- 상단 오른쪽의 검색창을 이용해 조회할 수 있습니다.</li>
+                    <li>- 학번, 이름, 전공, 전화번호 중 원하는 카테고리로 검색할 수 있습니다.</li>
+                </ul>
+            </li>
+            <li class="mb-3">
+                <span class="fs-5">학생을 수정하실려면</span>
+                <ul class="list-unstyled mt-2">
+                    <li>
+                        - 테이블 행에 있는 
+                        <span class="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path d="M12.854.146a.5.5 0 0 1 .707 0l2.293 2.293a.5.5 0 0 1 0 .707L5.207 13.793l-2.647.88a.5.5 0 0 1-.63-.63l.88-2.647L12.854.146zM11.207 3L5.5 8.707l-.793 2.379 2.379-.793L13 4.793 11.207 3z"/>
+                            </svg>
+                        </span> 
+                        아이콘을 클릭하세요.
+                    </li>
+                    <li>- '학생 수정' 페이지로 이동하여 전공과 전화번호를 수정할 수 있습니다.</li>
+                </ul>
+            </li>
+            <li class="mb-3">
+                <span class="fs-5">학생을 삭제하실려면</span>
+                <ul class="list-unstyled mt-2">
+                    <li>
+                        - 테이블 행의 
+                        <span class="text-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1H5v-1a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5zM4.5 2a.5.5 0 0 0-.5.5v1h8v-1a.5.5 0 0 0-.5-.5h-7zM4 4v9.5a1.5 1.5 0 0 0 1.5 1.5h5A1.5 1.5 0 0 0 12 13.5V4H4z"/>
+                            </svg>
+                        </span> 
+                        아이콘을 클릭하세요.
+                    </li>
+                    <li>- 또는 왼쪽의 체크박스를 선택한 후 상단의 <span class="text-danger fw-bold">삭제</span> 버튼을 클릭하세요.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
 	</main>
 </body>
 </html>
