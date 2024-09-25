@@ -65,38 +65,46 @@
 		
 		<section class="d-flex justify-content-center align-items-center" style="width: 75vw; height: auto; background-color: #ced9c7;">
 			<!-- Start of Student Registration Form -->
-			<div class="card rounded-3 text-black border border-2 border-light-subtle">
+			<div class="w-75 card rounded-3 text-black border border-2 border-light-subtle">
 				<div class="col-lg-12">
-					<div class="card-body p-md-5 mx-md-4">
-						<div class="text-center">
-							<h4 class="w-100 mt-1 mb-5 pb-1">학생 등록</h4>
+					<div class="card-body p-md-4 mx-md-4">
+						<div>						
+							<div class="text-center">
+								<h4 class="w-100 mt-1 mb-5 pb-1">학생 등록</h4>
+							</div>
+							<ol>
+								<li>
+									학번: 숫자 10자리로 작성해주세요</li>
+								<li>이름:</li>
+								<li>학과:</li>
+								<li>전화번호:</li>
+							</ol>
 						</div>
 						
 						<!-- Registration Form -->
 						<form action="/addStudent.do" method="POST">
-						
 							<!-- Student ID -->
 							<div data-mdb-input-init class="form-outline mb-3">
 								<label class="form-label text-muted" for="student_id">학번</label>
-								<input type="text" id="student_id" class="form-control" name="student_id" placeholder="학번" />
+								<input type="text" id="student_id" class="form-control" name="student_id" placeholder="학번 (숫자 10자)" />
 							</div>
 
 							<!-- Student Name -->
 							<div data-mdb-input-init class="form-outline mb-3">
 								<label class="form-label text-muted" for="student_name">이름</label>
-								<input type="text" id="student_name" class="form-control" name="student_name" placeholder="이름" />
+								<input type="text" id="student_name" class="form-control" name="student_name" placeholder="이름 (한글)" />
 							</div>
 							
 							<!-- Student Major -->
 							<div data-mdb-input-init class="form-outline mb-3">
 								<label class="form-label text-muted" for="major">학과</label>
-								<input type="text" id="major" class="form-control" name="student_major" placeholder="학과명" />
+								<input type="text" id="major" class="form-control" name="student_major" placeholder="학과명 (00학과)" />
 							</div>
 							
 							<!-- Student Telephone Number -->
 							<div data-mdb-input-init class="form-outline mb-3">
 								<label class="form-label text-muted" for="student_tel">전화번호</label>
-								<input type="tel" id="student_tel" class="form-control" name="student_tel" placeholder="010-1234-5678" />
+								<input type="tel" id="student_tel" class="form-control" name="student_tel" placeholder="전화번호 (010-1234-5678)" />
 							</div>
 
 							<!-- Submit -->

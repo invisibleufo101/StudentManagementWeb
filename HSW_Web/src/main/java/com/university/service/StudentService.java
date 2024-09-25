@@ -13,7 +13,7 @@ public class StudentService {
 	public StudentService() {}
 	
 	/**
-	 * 현재 student 테이블이 가지고 있는 모든 학생들을 출력합니다.
+	 * 검색 카테고리와 키워드에 따라 학생들을 출력합니다.
 	 * 
 	 * @param searchStudentId 학생 명단에 학번으로 학생 검색 기능을 구현하기 위한 조건 값 
 	 * @return 				  검색으로 찾으려는 학생

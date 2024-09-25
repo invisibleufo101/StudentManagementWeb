@@ -47,7 +47,7 @@ public class FieldHandler {
 	/**
 	 * 모델 객체가 가지고 있는 필드로부터 해당하는 값을 가져옵니다.
 	 *
-	 * @param 필드 이름
+	 * @param  필드 이름
 	 * @return 필드에 저장된 값
 	 */
 	public Object getField(String column) {
@@ -55,7 +55,7 @@ public class FieldHandler {
 			column = convertToLowerCase(column);
 			Field field = fieldMap.get(column);
 			if (field == null) {
-				throw new NoSuchFieldException("Invalid field name!");
+				throw new NoSuchFieldException("Field name: " + column + "does not exist!");
 			}
 			field.setAccessible(true);
 			return field.get(model);

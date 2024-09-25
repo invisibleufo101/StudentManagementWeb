@@ -29,9 +29,9 @@ public class QueryBuilder {
 	 * QueryBuilder 객체는 Model 자식 클래스를 인자 값으로 받아 SELECT 쿼리문을 실행할 때 
 	 * 모델 객체로 결과 값들을 담아서 반환합니다.
 	 * 
-	 * QueryBuilder 객체는 쿼리문을 직접
-	 * 
+	 * QueryBuilder 객체는 쿼리문을 만드는 것에 중점을 둔 객체이고
 	 * QueryExecutor 객체는 대신 쿼리문을 실행해주는 객체입니다.
+	 * 
 	 * @param modelClass Data Container로 쓸 Model 자식 클래스
 	 */
 	public QueryBuilder(Class<? extends Model> modelClass) {
@@ -54,6 +54,7 @@ public class QueryBuilder {
 			return tableName;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
+			System.out.println("Model Class (" + modelClass + ") can't be found in QueryBuilder instance!");
 			e.printStackTrace();
 			return null;
 		}
@@ -401,5 +402,4 @@ public class QueryBuilder {
         String snake_case = camelCase.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase(); // Code provided by ChatGPT
         return snake_case;
     }
-
 }

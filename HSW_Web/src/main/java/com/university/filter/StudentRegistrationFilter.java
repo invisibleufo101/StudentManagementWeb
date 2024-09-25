@@ -37,14 +37,40 @@ public class StudentRegistrationFilter extends HttpFilter implements Filter {
 		request.setCharacterEncoding("UTF-8");
 
 		Map<String, String> registrationParams = new LinkedHashMap<>();
-
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-		String studentId = request.getParameter("student_id").replace(" ", "");
-		String name = request.getParameter("student_name").replace(" ", "");
-		String major = request.getParameter("student_major").replace(" ", "");
-		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+		
+		
+//		String studentId = request.getParameter("student_id").replace(" ", "");
+//		String name = request.getParameter("student_name").replace(" ", "");
+//		String major = request.getParameter("student_major").replace(" ", "");
+//		String phoneNumber = request.getParameter("student_tel").replace(" ", "");
+		
+		String studentId = request.getParameter("student_id");
+		if (studentId != null) {
+			studentId = studentId.replace(" ", "");
+		} else {
+			studentId = "";
+		}
+		
+		String name = request.getParameter("student_name");
+		if (name != null) {
+			name = name.replace(" ", "");
+		} else {
+			name = "";
+		}
+		
+		String major = request.getParameter("student_major");
+		if (major != null) {
+			major = major.replace(" ", "");
+		} else {
+			major = "";
+		}
+		
+		String phoneNumber = request.getParameter("student_tel");
+		if (phoneNumber != null) {
+			phoneNumber = phoneNumber.replace(" ", "");
+		} else {
+			phoneNumber = "";
+		}
 
 		registrationParams.put("studentId", studentId);
 		registrationParams.put("name", name);
@@ -55,7 +81,7 @@ public class StudentRegistrationFilter extends HttpFilter implements Filter {
 		try {
 			if (!registrationValidator.validate(registrationParams)) {
 				Map<String, String> errors = registrationValidator.getErrorBag();
-				showError(httpResponse, errors);
+				showError(response, errors);
 				registrationValidator.clearErrorbag();
 				return;
 			}
@@ -167,6 +193,17 @@ public class StudentRegistrationFilter extends HttpFilter implements Filter {
 		out.println("</div>");
 		out.println("</section>");
 		out.println("</main>");
+		
+		
+		
+		out.println("<form action='/addStudent.do' method='POST'>");
+		out.println("<input type='text' name=''/>");
+		out.println("<button type='submit'>submit</button>");
+		
+		
+		
+		
+		out.println("</form>");
 		out.println("</body>");
 		out.println("</html>");
 
