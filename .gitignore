@@ -27,6 +27,6 @@ nb-configuration.xml
 .classpath
 .project
 .settings/
-.metadata
+.metadata/
 
 ./../.settings
