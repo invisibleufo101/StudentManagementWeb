@@ -51,8 +51,8 @@
 		<section class="d-flex justify-content-center align-items-center" style="width: 75vw; height: auto; background-color: #ced9c7;">
     <div class="w-100 h-75 d-flex flex-column align-items-center h-50 w-50 bg-white rounded-3 p-5">
         <h3 class="text-black">환영합니다 관리자님!</h3>
-        <h5 class="mt-3 fs-3"><b>학생 관리</b>탭에서 </h5>
-        <ul class="text-decoration-none py-3">
+        <h5><b>학생 관리</b>탭에서 </h5>
+        <ul class="text-decoration-none py-5">
             <li class="mb-3">
                 <span class="fs-5">학생을 등록하실려면</span>
                 <ul class="list-unstyled mt-2">

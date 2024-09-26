@@ -1,9 +1,8 @@
 INDEX VERSION 1.4+/Users/tonyha/Developer/HSW_Web/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-598117825.index
-108862955.index
-3654195099.index
-1212862875.index
 1930577240.index
-1002582787.index
-1002582787.index
 1990123818.index
+108862955.index
+1002582787.index
+3654195099.index
+598117825.index
+1212862875.index

@@ -2,4 +2,5 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="com.university.model.impl.Student"/>
     <fullyQualifiedTypeName name="com.university.service.StudentService"/>
+    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
 </qualifiedTypeNameHistroy>
